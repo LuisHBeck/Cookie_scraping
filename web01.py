@@ -22,6 +22,6 @@ class Web():
         sleep(5)
         self.driver.find_element(By.XPATH, self.map['idioma']["xpath"]).click()
         sleep(2)
-        for i in range(5000):
+        for i in range(500):
             self.driver.find_element(By.XPATH, self.map['biscoito']['xpath']).click()
         
