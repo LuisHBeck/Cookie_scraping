@@ -19,5 +19,9 @@ class Web():
     def abrir_site(self):
         sleep(2)
         self.driver.get(self.site)
-        sleep(10)
-        self.driver.find_element(By.XPATH, self.map["idioma"]["xpath"]).click()
+        sleep(5)
+        self.driver.find_element(By.XPATH, self.map['idioma']["xpath"]).click()
+        sleep(2)
+        for i in range(5000):
+            self.driver.find_element(By.XPATH, self.map['biscoito']['xpath']).click()
+        
