@@ -4,7 +4,7 @@ data_base = mysql.connector.connect(
     host='localhost',
     user='root',
     password='',
-    database='loterica'
+    database='megasena'
 )
 
 cursor = data_base.cursor()

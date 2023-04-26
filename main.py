@@ -1,5 +1,4 @@
-# from web01 import Web
-from web02 import Web
+from mega_sena import Web
 
 j = Web()
 j.abrir_site()
