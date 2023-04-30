@@ -238,29 +238,28 @@ class Application():
             
 
     def plot(self):
-        # import numpy as np
-        # self.num_plot()
-        # self.repetition_count()
+        import numpy as np
+        self.num_plot()
+        self.repetition_count()
 
-        # cm = 1/2.54  # centimeters in inches
-        # figure = plt.Figure(figsize=(10*cm,5*cm), dpi=175)
-        # ax = figure.add_subplot(111)
-        # canva = FigureCanvasTkAgg(figure, self.frame3)
-        # canva.get_tk_widget().place(relx=0.01, rely=0.01)
+        cm = 1/2.54  
+        figure = plt.Figure(figsize=(10*cm,5*cm), dpi=175)
+        ax = figure.add_subplot(111)
+        canva = FigureCanvasTkAgg(figure, self.frame3)
+        canva.get_tk_widget().place(relx=0.01, rely=0.01)
 
-        # data = repetition
+        data = repetition
 
 
-        # def func(pct, allvals):
-        #     absolute = int(np.round(pct/100.*np.sum(allvals)))
-        #     return f"{pct:.1f}%\n({absolute:d})"
+        def func(pct, allvals):
+            absolute = int(np.round(pct/100.*np.sum(allvals)))
+            return f"{pct:.1f}%\n({absolute:d})"
         
-        # wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: func(pct, data),
-        #                                 textprops=dict(color="w"))
+        wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: func(pct, data),
+                                        textprops=dict(color="w"))
                                         
 
-        # plt.setp(autotexts, size=8, weight="bold")
-        # # ax.set_title("Numbers")
+        plt.setp(autotexts, size=8, weight="bold")
+        ax.set_title("Numbers")
 
-        # plt.show()
-        ...
+        plt.show()
