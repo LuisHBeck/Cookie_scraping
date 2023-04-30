@@ -1,8 +1,17 @@
 from tkinter import *
 from tkinter import ttk
-from read import read_draw
+from read import read_draw, search_draw, search_num, select_num
+from mega_sena import Web
+from matplotlib import *
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+import matplotlib.pyplot as plt
 
 screen = Tk()
+
+number_search = []
+number_set = set()
+repetition = []
+
 
 options_year = [2022, 2021, 2020, 2019, 2018, 2017, 2016]
 
@@ -15,6 +24,7 @@ class Application():
         self.labels()
         self.label_db()
         self.inputs()
+        self.plot()
         screen.mainloop()
 
     def screen(self):
@@ -42,7 +52,7 @@ class Application():
 
     def buttons(self):
         self.bt_scrapping = Button(self.frame0, text='Scrapping', bg='#1f4788',
-                                   foreground='white', command='...')
+                                   foreground='white', command=self.window_scrapping)
         self.bt_scrapping.place(relx=0.05, rely=0.25, relwidth=0.1, relheight=0.5)
         
         self.bt_read = Button(self.frame0, text='Read', bg='#1f4788',
@@ -52,6 +62,15 @@ class Application():
         self.bt_year = Button(self.frame0, text='Year', bg='#1f4788',
                                    foreground='white', command=self.get_year)
         self.bt_year.place(relx=0.6, rely=0.25, relwidth=0.1, relheight=0.5)
+        
+        self.bt_search = Button(self.frame0, text='Search', bg='#1f4788',
+                                   foreground='white', command=self.search_draw)
+        self.bt_search.place(relx=0.85, rely=0.25, relwidth=0.1, relheight=0.5)
+        
+        self.bt_search = Button(self.frame1, text='Search', bg='#1f4788',
+                                   foreground='white', command=self.search_faith_num)
+        self.bt_search.place(relx=0.35, rely=0.15, relwidth=0.2, relheight=0.2)
+
 
 
     def labels(self):
@@ -62,9 +81,48 @@ class Application():
         self.combobox.set(2022)
         self.combobox.place(relx=0.7, rely=0.25, relwidth=0.1, relheight=0.5)
 
+        self.n1 = Label(self.frame1, text=1, background='#19B5FE')
+        self.n1.place(relx=0.05, rely=0.4, relwidth=0.1, relheight=0.2)
+        
+        self.n2 = Label(self.frame1, text=2, background='#19B5FE')
+        self.n2.place(relx=0.35, rely=0.4, relwidth=0.1, relheight=0.2)
+        
+        self.n3 = Label(self.frame1, text=3, background='#19B5FE')
+        self.n3.place(relx=0.65, rely=0.4, relwidth=0.1, relheight=0.2)
+
+        self.n4 = Label(self.frame1, text=4, background='#19B5FE')
+        self.n4.place(relx=0.05, rely=0.7, relwidth=0.1, relheight=0.2)
+
+        self.n5 = Label(self.frame1, text=5, background='#19B5FE')
+        self.n5.place(relx=0.35, rely=0.7, relwidth=0.1, relheight=0.2)
+
+        self.n6 = Label(self.frame1, text=6, background='#19B5FE')
+        self.n6.place(relx=0.65, rely=0.7, relwidth=0.1, relheight=0.2)
+
+
+
     def inputs(self):
         self.input_draw = Entry(self.frame0)
         self.input_draw.place(relx=0.45, rely=0.25, relwidth=0.1, relheight=0.5)
+
+        self.input_n1 = Entry(self.frame1)
+        self.input_n1.place(relx=0.15, rely=0.4, relwidth=0.1, relheight=0.2)    
+        
+        self.input_n2 = Entry(self.frame1)
+        self.input_n2.place(relx=0.45, rely=0.4, relwidth=0.1, relheight=0.2)    
+
+        self.input_n3 = Entry(self.frame1)
+        self.input_n3.place(relx=0.75, rely=0.4, relwidth=0.1, relheight=0.2)    
+        
+        self.input_n4 = Entry(self.frame1)
+        self.input_n4.place(relx=0.15, rely=0.7, relwidth=0.1, relheight=0.2)    
+
+        self.input_n5 = Entry(self.frame1)
+        self.input_n5.place(relx=0.45, rely=0.7, relwidth=0.1, relheight=0.2)    
+
+        self.input_n6 = Entry(self.frame1)
+        self.input_n6.place(relx=0.75, rely=0.7, relwidth=0.1, relheight=0.2)    
+
 
     def label_db(self):
         self.draw_list = ttk.Treeview(self.frame2, height=3,
@@ -118,4 +176,65 @@ class Application():
         # self.input_update_user.delete(0, END)
         # self.input_update1_user.delete(0, END)
 
+    def window_scrapping(self):
+        window = Web()
+        window.abrir_site()
 
+    def search_draw(self):
+        self.draw_list.delete(*self.draw_list.get_children())
+        draw = search_draw('sorteios', self.input_draw.get())
+        self.draw_list.insert(parent='', index=0, values=draw[0])
+        self.input_n1.insert(0, draw[0][1])
+        self.input_n2.insert(0, draw[0][2])
+        self.input_n3.insert(0, draw[0][3])
+        self.input_n4.insert(0, draw[0][4])
+        self.input_n5.insert(0, draw[0][5])
+        self.input_n6.insert(0, draw[0][6])
+
+    def search_faith_num(self):
+        self.draw_list.delete(*self.draw_list.get_children())
+        faith_draw = search_num(self.input_n1.get())
+        self.draw_list.insert(parent='', index=0, values=faith_draw[0])
+
+    def num_plot(self):
+        x = select_num()
+        for i in x:
+            for k in i:
+                number_search.append(k)
+
+        number_search.sort()
+        
+        for i in number_search:
+            number_set.add(i)
+
+    def repetition_count(self):
+        z = 1
+        for i in range(61):
+            x = number_search.count(i)
+            repetition.append(x)
+        del repetition[0]
+            
+
+    def plot(self):
+        import numpy as np
+        self.num_plot()
+        self.repetition_count()
+
+        figure = plt.Figure(figsize=(8, 5), dpi=85)
+        ax = figure.add_subplot(111)
+        canva = FigureCanvasTkAgg(figure, self.frame3)
+        canva.get_tk_widget().place(relx=0.01, rely=0.01)
+
+        data = repetition
+
+
+        def func(pct, allvals):
+            absolute = int(np.round(pct/100.*np.sum(allvals)))
+            return f"{pct:.1f}%\n({absolute:d})"
+        
+        wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: func(pct, data),
+                                        textprops=dict(color="w"))
+                                        
+
+        plt.setp(autotexts, size=8, weight="bold")
+        ax.set_title("Numbers")
