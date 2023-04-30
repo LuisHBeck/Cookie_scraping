@@ -13,7 +13,7 @@ number_set = set()
 repetition = []
 
 
-options_year = [2022, 2021, 2020, 2019, 2018, 2017, 2016]
+options_year = [2022, 2021]
 
 class Application():
     def __init__(self) -> None:
@@ -156,33 +156,42 @@ class Application():
 
     def get_year(self):
         self.year_selected = self.combobox.get()
-        print(self.year_selected)
+        return self.year_selected
+    
+    def year_table(self):
+        x = self.get_year()
+        z = str(x)
+        y = 's'+z
+        return y
+
 
     def show_draw(self):
+        table = self.year_table()
         self.clean()
-        all_draw = read_draw('sorteios')
+        all_draw = read_draw(table)
         for i in all_draw:
             self.draw_list.insert('', 'end', values=i)
-
-        
+ 
     def clean(self):
         self.draw_list.delete(*self.draw_list.get_children())
-        # self.input_email_user.delete(0, END)
-        # self.input_name_user.delete(0, END)
-        # self.input_id_user.delete(0, END)
-        # self.input_plan_user.delete(0, END)
-        # self.input_type_user.delete(0, END)
-        # self.input_age_user.delete(0, END)
-        # self.input_update_user.delete(0, END)
-        # self.input_update1_user.delete(0, END)
-
+        self.input_n1.delete(0, END)
+        self.input_n2.delete(0, END)
+        self.input_n3.delete(0, END)
+        self.input_n4.delete(0, END)
+        self.input_n5.delete(0, END)
+        self.input_n6.delete(0, END)
+    
     def window_scrapping(self):
-        window = Web()
-        window.abrir_site()
+        window = Web('https://asloterias.com.br/resultados-da-mega-sena-2022')
+        window.abrir_site('s2022')
+
+        window2 = Web('https://asloterias.com.br/resultados-da-mega-sena-2021')
+        window2.abrir_site('s2021')
 
     def search_draw(self):
+        self.clean()
         self.draw_list.delete(*self.draw_list.get_children())
-        draw = search_draw('sorteios', self.input_draw.get())
+        draw = search_draw('s2022', self.input_draw.get())
         self.draw_list.insert(parent='', index=0, values=draw[0])
         self.input_n1.insert(0, draw[0][1])
         self.input_n2.insert(0, draw[0][2])
@@ -191,13 +200,26 @@ class Application():
         self.input_n5.insert(0, draw[0][5])
         self.input_n6.insert(0, draw[0][6])
 
-    def search_faith_num(self):
-        self.draw_list.delete(*self.draw_list.get_children())
-        faith_draw = search_num(self.input_n1.get())
-        self.draw_list.insert(parent='', index=0, values=faith_draw[0])
+    # def search_faith_num(self):
+    #     self.draw_list.delete(*self.draw_list.get_children())
+    #     faith_draw = search_num(self.input_n1.get())
+    #     self.draw_list.insert(parent='', index=0, values=faith_draw[0])
+
+    def search_faith_num(self): 
+        table = self.year_table()
+        x = select_num(table)
+        for i in x:
+            if i[0] == self.input_n1.get():
+                if i[1] == self.input_n2.get():
+                    if i[2] == self.input_n3.get():
+                        if i[3] == self.input_n4.get():
+                            if i[4] == self.input_n5.get():
+                                if i[5] == self.input_n6.get():
+                                    print('Find')
 
     def num_plot(self):
-        x = select_num()
+        table = self.year_table()
+        x = select_num(table)
         for i in x:
             for k in i:
                 number_search.append(k)
@@ -216,25 +238,29 @@ class Application():
             
 
     def plot(self):
-        import numpy as np
-        self.num_plot()
-        self.repetition_count()
+        # import numpy as np
+        # self.num_plot()
+        # self.repetition_count()
 
-        figure = plt.Figure(figsize=(8, 5), dpi=85)
-        ax = figure.add_subplot(111)
-        canva = FigureCanvasTkAgg(figure, self.frame3)
-        canva.get_tk_widget().place(relx=0.01, rely=0.01)
+        # cm = 1/2.54  # centimeters in inches
+        # figure = plt.Figure(figsize=(10*cm,5*cm), dpi=175)
+        # ax = figure.add_subplot(111)
+        # canva = FigureCanvasTkAgg(figure, self.frame3)
+        # canva.get_tk_widget().place(relx=0.01, rely=0.01)
 
-        data = repetition
+        # data = repetition
 
 
-        def func(pct, allvals):
-            absolute = int(np.round(pct/100.*np.sum(allvals)))
-            return f"{pct:.1f}%\n({absolute:d})"
+        # def func(pct, allvals):
+        #     absolute = int(np.round(pct/100.*np.sum(allvals)))
+        #     return f"{pct:.1f}%\n({absolute:d})"
         
-        wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: func(pct, data),
-                                        textprops=dict(color="w"))
+        # wedges, texts, autotexts = ax.pie(data, autopct=lambda pct: func(pct, data),
+        #                                 textprops=dict(color="w"))
                                         
 
-        plt.setp(autotexts, size=8, weight="bold")
-        ax.set_title("Numbers")
+        # plt.setp(autotexts, size=8, weight="bold")
+        # # ax.set_title("Numbers")
+
+        # plt.show()
+        ...

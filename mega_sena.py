@@ -4,8 +4,8 @@ from time import sleep
 from create import creat_sorteio
 
 class Web():
-    def __init__(self) -> None:
-        self.site = 'https://asloterias.com.br/resultados-da-mega-sena-2022'
+    def __init__(self, site) -> None:
+        self.site = site
         self.map = {
             'sorteio': {
             'xpath': '/html/body/main/div[2]/div/div/div[1]/strong[%num%]'
@@ -20,7 +20,7 @@ class Web():
         self.driver.maximize_window()
         
 
-    def abrir_site(self):
+    def abrir_site(self, table):
         numeros = []
         sleep(2)
         self.driver.get(self.site)
@@ -34,6 +34,6 @@ class Web():
                 k+=1
                 numeros.append(z.text)
             n1, n2, n3, n4, n5, n6 = numeros
-            creat_sorteio(sorteio, n1, n2, n3, n4, n5, n6)
+            creat_sorteio(table, sorteio, n1, n2, n3, n4, n5, n6)
             numeros.clear()    
         sleep(2)
